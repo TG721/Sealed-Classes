@@ -8,7 +8,7 @@ sealed class HttpError(val code: Int, val message: String?) {
         class Unauthorized(message: String?) : ClientRequestError(401, message)
         class Forbidden(message: String?) : ClientRequestError(403, message)
         class NotFound(message: String?) : ClientRequestError(404, message)
-        class UnknownClientRequestError(code: Int, message: String?) : ServerResponseError(code, message)
+        class UnknownClientRequestError(code: Int, message: String?) : ClientRequestError(code, message)
 
     }
 
