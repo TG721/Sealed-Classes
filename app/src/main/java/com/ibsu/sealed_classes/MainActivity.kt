@@ -10,8 +10,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        HttpError.ClientRequestException.NotFound()
         HttpError.ServerResponseException(500)
+        val httpError: HttpError =  HttpError.ClientRequestException.NotFound()
+
+//      //exhaustive when
+        when(httpError){
+            is HttpError.ClientRequestException.NotFound -> {}
+            is HttpError.ClientRequestException.Unauthorized -> {}
+            is HttpError.RedirectResponseException -> {}
+            is HttpError.ServerResponseException -> {}
+        }
     }
 
 
