@@ -10,9 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        HttpError.ClientRequestException.NotFound()
-        HttpError.ServerResponseException(500)
     }
-
 
 }

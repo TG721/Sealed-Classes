@@ -1,15 +1,26 @@
 package com.ibsu.sealed_classes
 
 
-//Declaring child classes inside the sealed parent class (or in the same file) is a common/good practice
-//but not mandatory
+sealed class HttpError(val code: Int, val message: String?) {
+    // 4xx Client Errors
+    sealed class ClientRequestError(code: Int, message: String?) : HttpError(code, message) {
+        class BadRequest(message: String?) : ClientRequestError(400, message)
+        class Unauthorized(message: String?) : ClientRequestError(401, message)
+        class Forbidden(message: String?) : ClientRequestError(403, message)
+        class NotFound(message: String?) : ClientRequestError(404, message)
+        class UnknownClientRequestError(code: Int, message: String?) : ServerResponseError(code, message)
 
-sealed class HttpError(val code: Int) {
-    class RedirectResponseException(code: Int) : HttpError(code)
-    sealed class ClientRequestException(code: Int) : HttpError(code){
-        class Unauthorized: HttpError(401)
-        class NotFound: HttpError(404)
     }
-    class ServerResponseException(code: Int) : HttpError(code)
+
+    // 5xx Server Errors
+    sealed class ServerResponseError(code: Int, message: String?) : HttpError(code, message) {
+        class InternalServerError(message: String?) : ServerResponseError(500, message)
+        class BadGateway(message: String?) : ServerResponseError(502, message)
+        class ServiceUnavailable(message: String?) : ServerResponseError(503, message)
+        class UnknownServerResponseError(code: Int, message: String?) : ServerResponseError(code, message)
+    }
+
+    class Redirect(code: Int, val location: String?) : HttpError(code, message = null)
 }
+
 
